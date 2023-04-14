@@ -33,27 +33,27 @@ public class CarController {
     //        return new ResponseEntity<>(carService.readAll(), HttpStatus.OK);
     //    }
 
-    //@GetMapping("/cars")
-    //    public ResponseEntity<List<Car>> findCars(@RequestParam(value = "count", required = false) Long count) {
-    //        ResponseEntity<List<Car>> listResponseEntity;
-    //        if (count == null) {
-    //            listResponseEntity = new ResponseEntity<>(carService.readAll(), HttpStatus.OK);
-    //        } else {
-    //            listResponseEntity = new ResponseEntity<>(carService.findCars(count), HttpStatus.OK);
-    //        }
-    //        return listResponseEntity;
-    //    }
-
     @GetMapping("/cars")
-    public String findCars(@RequestParam(value = "count", required = false) Long count,
-                                              Model model) {
+    public ResponseEntity<List<Car>> findCars(@RequestParam(value = "count", required = false) Long count) {
         ResponseEntity<List<Car>> listResponseEntity;
         if (count == null) {
             listResponseEntity = new ResponseEntity<>(carService.readAll(), HttpStatus.OK);
         } else {
             listResponseEntity = new ResponseEntity<>(carService.findCars(count), HttpStatus.OK);
         }
-        model.addAttribute("cars", listResponseEntity);
-        return "/cars";
+        return listResponseEntity;
     }
+
+    //@GetMapping("/cars")
+    //    public String findCars(@RequestParam(value = "count", required = false) Long count,
+    //                                              Model model) {
+    //        ResponseEntity<List<Car>> listResponseEntity;
+    //        if (count == null) {
+    //            listResponseEntity = new ResponseEntity<>(carService.readAll(), HttpStatus.OK);
+    //        } else {
+    //            listResponseEntity = new ResponseEntity<>(carService.findCars(count), HttpStatus.OK);
+    //        }
+    //        model.addAttribute("cars", listResponseEntity);
+    //        return "/cars";
+    //    }
 }
