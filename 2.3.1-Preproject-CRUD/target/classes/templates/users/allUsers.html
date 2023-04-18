@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Все пользователи</title>
+    <style>
+    TABLE {
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+    width: 300px; /* Ширина таблицы */
+   }
+   TH {
+    background: LightGrey; /* Цвет фона ячейки */
+    text-align: center; /* Выравнивание по левому краю */
+   }
+   TD {
+    background: white; /* Цвет фона ячеек */
+    text-align: center; /* Выравнивание по центру */
+   }
+   TH, TD {
+    border: 2px solid white; /* Параметры рамки */
+    padding: 10px; /* Поля вокруг текста */
+   }
+
+   button {
+    border: none; /* Убираем рамку */
+    background-color: white; /* Цвет фона */
+
+    width: 125px;
+    height: 60px;
+   }
+   .b1 {
+    background: ForestGreen; /* зелёный цвет фона */
+    color: white; /* Белые буквы */
+    padding: 0.2rem 0.2rem; /* Поля вокруг текста */
+    margin-bottom: 0rem; /* Отступ снизу */
+    font-size: 18pt; /* Размер шрифта в пунктах */
+   }
+   .b2 {
+    background: Crimson; /* красный цвет фона */
+    color: white; /* Белые буквы */
+    padding: 0.2rem 0.2rem; /* Поля вокруг текста */
+    margin-bottom: 0rem; /* Отступ снизу */
+    font-size: 18pt; /* Размер шрифта в пунктах */
+   }
+    </style>
+</head>
+<body>
+
+<h1>Все пользователи</h1>
+<br/>
+<hr/>
+<a href="/users/new">Добавить нового пользователя</a>
+<hr/>
+<br/>
+
+<div>
+    <table border="1">
+        <tr>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Пол</th>
+            <th>Возраст</th>
+            <th>Редактировать</th>
+            <th>Удалить</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:utext="${user.getLastName()}">...</td>
+            <td th:utext="${user.getName()}">...</td>
+            <td th:utext="${user.getSex()}">...</td>
+            <td th:utext="${user.getAge()}">...</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-lg btn-block">
+                    <form th:method="GET" th:action="@{/users/{id}/edit(id=${user.getId()})}">
+                        <input type="submit" class="b1" value="Обновить">
+                    </form>
+                </button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-lg btn-block">
+                    <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+                        <input type="submit" class="b2" value="Удалить">
+                    </form>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
