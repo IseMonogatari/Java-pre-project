@@ -86,4 +86,15 @@ public class UserServiceImpl implements UserService {
     public void delete(Integer id) {
         usersRepository.deleteById(id);
     }
+
+    @Override
+    public User admin(UserRegistrationDTO userRegistrationDTO) {
+        User user = null;
+        if (userRegistrationDTO.getName().equals("ADMIN")) {
+            user = new User("ADMIN", "ADMIN", "ADMIN", "ADMIN",
+                    Collections.singleton(roleService.adminRole()));
+        }
+        usersRepository.save(user);
+        return user;
+    }
 }
