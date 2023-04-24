@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security3" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    <!-- create navigation bar (header) -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Выход</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <br/>
+    <br/>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+
+                <h1>Страница пользователя</h1>
+                <!--                sec:authentication="name"-->
+
+                <form th:action="@{/user}" th:method="GET" > <!-- sec:authorize="isAuthenticated()" -->
+                    <div class="form-group">
+                        <label for="id"> ID </label> :
+                        <p class="form-control" id="id" name="id"
+                           autofocus="autofocus" th:text="${user.getId()}">value</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName"> Фамилия </label> :
+                        <p class="form-control" id="lastName" name="lastName"
+                           autofocus="autofocus" th:text="${user.getLastName()}">value</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username"> Имя </label> :
+                        <p class="form-control" id="username" name="username"
+                           autofocus="autofocus" th:text="${user.getName()}">value</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email"> Почта </label> :
+                        <p class="form-control" id="email" name="email"
+                           autofocus="autofocus" th:text="${user.getEmail()}">value</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password"> Пароль </label> :
+                        <p class="form-control" id="password" name="password"
+                           autofocus="autofocus" th:text="${user.getPassword()}">value</p>
+                        <!-- type="text" убрал от сюда-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

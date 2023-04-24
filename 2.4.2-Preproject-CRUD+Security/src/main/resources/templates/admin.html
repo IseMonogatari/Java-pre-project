@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security3" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница администратора</title>
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+</head>
+<body>
+
+    <!-- create navigation bar ( header) -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Выход</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <br>
+    <br>
+
+<div class="container my-2">
+    <h1>Страница администратора</h1>
+    <h2>Список пользователей</h2>
+
+    <a th:href = "@{/registration}" class="btn btn-primary btn-sm mb-3"> Добавить нового пользователя </a>
+
+    <br/>
+    <br/>
+
+    <table border="1" class = "table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">
+                    Фамилия:</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">
+                    Имя:</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">
+                    Email:</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">
+                    Пароль:</a>
+            </th>
+            <th> Действия </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.getLastName()}"></td>
+            <td th:text="${user.getName()}"></td>
+            <td th:text="${user.getEmail()}"></td>
+            <td th:text="${user.getPassword()}"></td>
+            <td>
+                <form th:method="GET" th:action="@{/admin/{id}/update(id=${user.getId()})}" for="login-submit">
+                    <input type="submit" name="login-submit" id="login-submit"
+                           class="btn btn-primary" value="Обновить">
+                </form>
+                <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}" for="delete">
+                    <input type="submit" name="delete" id="delete"
+                           class="btn btn-danger" value="Удалить" align="right">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
