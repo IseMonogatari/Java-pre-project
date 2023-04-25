@@ -22,7 +22,7 @@ public class User implements UserDetails {
     private Integer id;
     @Column(name = "name")
     private String name;
-    @Column(name = "lastLame")
+    @Column(name = "lastName")
     private String lastName;
     @Column(name = "email")
     private String email;
@@ -30,13 +30,10 @@ public class User implements UserDetails {
     @Column(name = "password", length = 1000)
     private String password;
 
-    //@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    //    @CollectionTable(name = "user_role",
-    //            joinColumns = @JoinColumn(name = "user_id"))
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "usersRoles",
-            joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "roleId", referencedColumnName = "id"))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
     public User(String name, String lastName, String email, String password, Set<Role> roles) {
@@ -46,64 +43,6 @@ public class User implements UserDetails {
         this.password = password;
         this.roles = roles;
     }
-
-    //public User() {
-    //    }
-    //
-    //    public User(Integer id, String name, String lastName, String sex, Integer age) {
-    //        this.id = id;
-    //        this.name = name;
-    //        this.lastName = lastName;
-    //        this.sex = sex;
-    //        this.age = age;
-    //    }
-    //
-    //    public User(String name, String lastName, String sex, Integer age) {
-    //        this.name = name;
-    //        this.lastName = lastName;
-    //        this.sex = sex;
-    //        this.age = age;
-    //    }
-
-    //public Integer getId() {
-    //        return id;
-    //    }
-    //
-    //    public void setId(Integer id) {
-    //        this.id = id;
-    //    }
-    //
-    //    public String getName() {
-    //        return name;
-    //    }
-    //
-    //    public void setName(String name) {
-    //        this.name = name;
-    //    }
-    //
-    //    public String getLastName() {
-    //        return lastName;
-    //    }
-    //
-    //    public void setLastName(String lastName) {
-    //        this.lastName = lastName;
-    //    }
-    //
-    //    public String getSex() {
-    //        return sex;
-    //    }
-    //
-    //    public void setSex(String sex) {
-    //        this.sex = sex;
-    //    }
-    //
-    //    public Integer getAge() {
-    //        return age;
-    //    }
-    //
-    //    public void setAge(Integer age) {
-    //        this.age = age;
-    //    }
 
     // Security
 

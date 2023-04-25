@@ -31,7 +31,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}/successful")
     public ModelAndView update(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView("update");
         modelAndView.addObject("user", userService.update(user));
@@ -40,9 +40,9 @@ public class AdminController {
 
     // Удаление пользователя
 
-    @DeleteMapping("/{id}")
+    @GetMapping("/{id}/delete")
     public String delete(@PathVariable Integer id) {
-        userService.delete(id);
-        return "admin";
+        userService.deleteUser(id);
+        return "redirect:/admin";
     }
 }

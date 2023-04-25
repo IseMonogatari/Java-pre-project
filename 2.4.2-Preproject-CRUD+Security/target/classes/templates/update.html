@@ -27,7 +27,7 @@
         <hr>
         <h2>Обновление данных о пользователе</h2>
 
-        <form th:method="PATCH" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}"> <!--/admin/{id}(id=${user.getId()})-->
+        <form th:method="POST" th:action="@{/admin/{id}/successful(id=${user.getId()})}" th:object="${user}"> <!--/admin/{id}(id=${user.getId()})-->
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{id}"/>

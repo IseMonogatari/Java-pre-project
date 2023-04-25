@@ -20,7 +20,7 @@ public class Role implements GrantedAuthority {
     private Integer id;
     private String role;
     //@ManyToMany(fetch = FetchType.EAGER)
-    //private Set<User> users;
+    //    private Set<User> users;
 
     public Role(String role) {
         this.role = role;

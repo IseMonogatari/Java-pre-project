@@ -12,9 +12,4 @@ public class UserRegistrationDTO {
 
     public UserRegistrationDTO() {
     }
-
-    public UserRegistrationDTO(String name, String password) {
-        this.name = name;
-        this.password = password;
-    }
 }

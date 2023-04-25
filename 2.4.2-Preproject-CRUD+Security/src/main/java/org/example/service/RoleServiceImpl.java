@@ -3,7 +3,6 @@ package org.example.service;
 import org.example.dto.RoleDTO;
 import org.example.dto.UserRegistrationDTO;
 import org.example.model.Role;
-import org.example.model.User;
 import org.example.repository.RolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RolesRepository roleRepository;
-
-    Role userRole = new Role("ROLE_USER");
     Role adminRole = new Role("ROLE_ADMIN");
+    Role userRole = new Role("ROLE_USER");
 
     @Override
     public Role save(RoleDTO roleDTO) {
@@ -23,12 +21,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role findRole(UserRegistrationDTO userRegistrationDTO) {
-        return new Role("ROLE_USER");
+    public Role userRole() {
+        return userRole;
     }
 
-    @Override
-    public Role adminRole() {
-        return adminRole;
-    }
 }

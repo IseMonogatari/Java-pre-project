@@ -4,6 +4,7 @@ package org.example.service;
 import org.example.dto.UserRegistrationDTO;
 import org.example.model.Role;
 import org.example.model.User;
+import org.example.repository.RolesRepository;
 import org.example.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,27 +29,32 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
 
     @Autowired
+    private RolesRepository rolesRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public User save(UserRegistrationDTO userRegistrationDTO) {
-        User user = new User(userRegistrationDTO.getName(), userRegistrationDTO.getLastName(),
-                            userRegistrationDTO.getEmail(), passwordEncoder.encode(userRegistrationDTO.getPassword()),
-                            Collections.singleton(roleService.findRole(userRegistrationDTO))); //new Role("ROLE_USER") <-- было раньше //
+        User user = new User();
+        Role userRole = rolesRepository.findByRole("ROLE_USER");
+
+        if (userRegistrationDTO.getName().equals("ADMIN")) {
+            user = usersRepository.findByName("ADMIN");
+            user.getRoles().add(userRole);
+        } else {
+            user.setLastName(userRegistrationDTO.getLastName());
+            user.setName(userRegistrationDTO.getName());
+            user.setEmail(userRegistrationDTO.getEmail());
+            user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
+            user.setRoles(Collections.singleton(userRole));
+        }
         return usersRepository.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = null;
-        if (username.equals("ADMIN")) {
-            user = new User("ADMIN", "ADMIN", "ADMIN", "ADMIN",
-                    Collections.singleton(roleService.adminRole()));
-            usersRepository.save(user);
-        }
-
-        user = usersRepository.findByName(username);
-
+        User user = usersRepository.findByName(username);
         if (user == null) {
             throw new UsernameNotFoundException("Неверный логин или пароль.");
         }
@@ -81,20 +87,5 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
-    }
-
-    public void delete(Integer id) {
-        usersRepository.deleteById(id);
-    }
-
-    @Override
-    public User admin(UserRegistrationDTO userRegistrationDTO) {
-        User user = null;
-        if (userRegistrationDTO.getName().equals("ADMIN")) {
-            user = new User("ADMIN", "ADMIN", "ADMIN", "ADMIN",
-                    Collections.singleton(roleService.adminRole()));
-        }
-        usersRepository.save(user);
-        return user;
     }
 }

@@ -19,23 +19,8 @@ public class MainController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String adminAccount(@ModelAttribute("user") UserRegistrationDTO userRegistrationDTO) {
-        userService.admin(userRegistrationDTO);
-        return "admin";
-    }
-
     @GetMapping("/")
     public String home() {
         return "index";
     }
-
-    //@GetMapping("/user/{name}")
-    //    public ModelAndView userPage(@PathVariable("name") String name) {
-    //        ModelAndView modelAndView = new ModelAndView("/user");
-    //        modelAndView.addObject("user", userService.loadUserByUsername(name));
-    //        return modelAndView;
-    //    }
-
-
 }

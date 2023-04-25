@@ -44,14 +44,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                     //Доступ только для не зарегистрированных пользователей
-                    .antMatchers("/registration").not().fullyAuthenticated()
+                    .antMatchers("/registration").permitAll()
+                    .antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
                     .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                .and()
-                    .formLogin()  // Spring сам подставит свою логин форму
+                    .formLogin().loginPage("/login").permitAll()
                     .successHandler(successUserHandler) // подключаем наш SuccessHandler для перенеправления по ролям
                 .and()
                     .logout()
