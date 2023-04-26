@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security3" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Обновление данных об пользователе</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!--  <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">  -->
+</head>
+<body>
+
+<!-- create navigation bar (header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Выход</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br/>
+<br/>
+
+
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <h1>Пользовательские данные</h1>
+                <hr/>
+                <h2>Обновление данных о пользователе</h2>
+
+                <form th:method="POST" th:action="@{/admin/{id}/successful(id=${user.getId()})}" th:object="${user}"> <!--/admin/{id}(id=${user.getId()})-->
+
+                    <!-- Add hidden form field to handle update -->
+                    <input type="hidden" th:field="*{id}"/>
+
+                    <label for="lastName">Фамилия:</label>
+                    <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4" id="lastName">
+
+                    <label for="name">Имя:</label>
+                    <input type="text" th:field="*{name}" class="form-control mb-4 col-4" id="name">
+
+                    <label for="email">Email:</label>
+                    <input type="text" th:field="*{email}" class="form-control mb-4 col-4" id="email">
+
+                    <label for="password">Пароль:</label>
+                    <input type="text" th:field="*{password}" class="form-control mb-4 col-4" id="password">
+
+                    <br/>
+                    <button type="submit" class="btn btn-info col-2">Обновить данные</button>
+                    <!--   <button type="submit" class="btn btn-info col-2">Обновить данные</button>     -->
+                </form>
+                <!--  <form th:method="GET" th:action="@{/admin}">
+                      <input type="submit" name="login-submit" id="login-submit"
+                             class="btn btn-info col-2" value="Обновить данные">
+                    </form>  -->
+
+                <hr>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <form th:method="GET" th:action="@{/admin}">
+                                <input type="submit" name="login-submit" id="login-submit"
+                                       class="btn btn-primary col-4" value="Вернуться на страницу администратора">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
