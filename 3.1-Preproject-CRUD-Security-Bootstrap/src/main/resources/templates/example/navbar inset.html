@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" lang="en">
+
+<div id="navbar-left">
+    <div class="col-md-8 col-lg-9 content-container" style="background-color: #F8F8FF">
+        <!-- Основной контент страницы  -->
+        <h1>Панель администратора</h1>
+
+        <!-- Навигационная панель в виде вкладок -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#table">Таблица пользователей</a> <!-- активная ссылка -->
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " data-toggle="tab" href="new user">Новый пользователь</a>
+            </li>
+        </ul>
+
+        <br/>
+
+        <!-- Блоки с контентом -->
+        <div class="tab-content" >
+            <!-- Первый блок (он отображается по умолчанию, т.к. имеет классы show и active) -->
+            <div class="tab-pane fade show active" id="table">
+
+                <!-- Добавление карточек -->
+                <div class="card">
+                    <div class="card-header">
+                        Все пользователи
+                    </div>
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">Специальный заголовок</h5> -->
+
+                        <!-- As a heading
+                    <nav class="navbar sticky-top navbar-light border border-white rounded" style="background-color: #C0C0C0;">
+                      <span class="navbar-brand mb-0 h1">
+                        <h1>Все пользователи</h1>
+                      </span>
+                    </nav> -->
+
+                        <!-- Особое обрамление заголовка. Возможно, надо убрать. -->
+                        <!-- <div class="page-header">
+                              <h1>Все пользователи</h1>
+                              </div> -->
+
+                        <table class = "table table-striped table-responsive-md" style="background-color: #fff">
+                            <thead>
+                            <tr>
+                                <th>ID:</th>
+                                <th>Фамилия:</th>
+                                <th>Имя:</th>
+                                <th>Email:</th>
+                                <th>Роль:</th>
+                                <th>Действия:</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="user : ${users}">
+                                <td th:text="${user.getId()}"></td>
+                                <td th:text="${user.getLastName()}"></td>
+                                <td th:text="${user.getName()}"></td>
+                                <td th:text="${user.getEmail()}"></td>
+                                <td th:text="${user.getAllRoles()}"></td>
+                                <td>
+                                    <a th:href="@{/admin/{id}/update(id=${user.getId()})}"
+                                       class="btn btn-primary"> Обновить </a>
+                                    <a th:href="@{/admin/{id}/delete(id=${user.getId()})}"
+                                       class="btn btn-danger"> Удалить </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Второй блок -->
+            <div class="tab-pane fade " id="new user">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+
+                            <!-- success message -->
+                            <div th:if="${param.success}">
+                                <div class="alert alert-success">Вы успешно зарегистрированы!</div>
+                            </div>
+
+                            <!-- mistake message -->
+                            <div th:if="${param.mistake}">
+                                <div class="alert alert-danger">Вы не можете иметь роль администратора!</div>
+                            </div>
+
+                            <div class="page-header">
+                                <h1>Добавить нового пользователя</h1>
+                            </div>
+                            <!-- <h2>Добавить нового пользователя</h2> -->
+
+
+
+                            <form th:action="@{/registration}" method="POST" th:object="${user}">
+                                <div class="form-group">
+                                    <label class="control-label" for="lastName">Фамилия</label>
+                                    <input type="text" id="lastName" class="form-control" th:field="*{lastName}"
+                                           required autofocus="autofocus"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label" for="name">Имя</label>
+                                    <input type="text" id="name" class="form-control" th:field="*{name}"
+                                           required autofocus="autofocus"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label" for="email">Email</label>
+                                    <input type="text" id="email" class="form-control" th:field="*{email}"
+                                           required autofocus="autofocus"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label" for="password">Пароль</label>
+                                    <input id="password" class="form-control" type="password" th:field="*{password}"
+                                           required autofocus="autofocus"/>
+                                    <!-- <input type="text" th:field="*{password}" id="password"/> -->
+                                </div>
+
+                                <div class="form-group"> <!-- style="height: 200px;" -->
+                                    <label for="role">Роль</label>
+                                    <select class="form-control" id="role" th:field="*{role}">
+                                        <option value="ROLE_USER">Пользователь</option>
+                                        <option value="ROLE_ADMIN">Администратор</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group ">
+                                    <button type="submit" class="btn btn-primary mb-2">Добавить</button> <!-- bnt bnt-success -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
